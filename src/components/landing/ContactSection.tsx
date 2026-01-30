@@ -1,19 +1,44 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Send, CheckCircle } from "lucide-react";
+import { Mail, Send, CheckCircle, AlertCircle } from "lucide-react";
 import { GothicButton } from "@/components/ui/GothicButton";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
+    if (!email) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const { error: insertError } = await supabase
+        .from('newsletter_subscribers')
+        .insert({ email: email.trim().toLowerCase() });
+
+      if (insertError) {
+        if (insertError.code === '23505') {
+          setError("Este email já está inscrito.");
+        } else {
+          setError("Erro ao inscrever. Tente novamente.");
+        }
+        return;
+      }
+
       setIsSubmitted(true);
       setEmail("");
+    } catch {
+      setError("Erro ao conectar. Tente novamente.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -64,10 +89,26 @@ const ContactSection = () => {
                   className="w-full h-12 pl-12 pr-4 bg-card border border-border text-foreground placeholder:text-foreground/30 font-body focus:outline-none focus:border-primary/50 transition-colors"
                 />
               </div>
-              <GothicButton variant="sacred" type="submit" className="h-12">
-                <Send className="w-4 h-4" />
-                Inscrever
+              <GothicButton variant="sacred" type="submit" className="h-12" disabled={isLoading}>
+                {isLoading ? (
+                  <span className="animate-pulse">...</span>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    Inscrever
+                  </>
+                )}
               </GothicButton>
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex items-center gap-2 text-destructive text-sm sm:absolute sm:-bottom-8 sm:left-0"
+                >
+                  <AlertCircle className="w-4 h-4" />
+                  {error}
+                </motion.div>
+              )}
             </motion.form>
           ) : (
             <motion.div
