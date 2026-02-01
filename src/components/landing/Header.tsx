@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { GothicButton } from "@/components/ui/GothicButton";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,10 +16,10 @@ const Header = () => {
 
   const navLinks = [
     { href: "#inicio", label: "Início" },
-    { href: "#sobre", label: "O Instituto" },
-    { href: "#podcast", label: "Podcast" },
-    { href: "#rpg", label: "RPG" },
-    { href: "#contato", label: "Contato" },
+    { href: "#rpg", label: "O Jogo" },
+    { href: "#personagens", label: "Personagens" },
+    { href: "#trailer", label: "Trailer" },
+    { href: "#contato", label: "Comunidade" },
   ];
 
   return (
@@ -33,14 +32,12 @@ const Header = () => {
     >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
           <a href="#inicio" className="flex items-center gap-3 group">
             <span className="font-display text-xl text-primary group-hover:text-glow transition-all duration-300">
-              Instituto Enoch Path
+              Enoch Path
             </span>
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
@@ -53,7 +50,6 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden text-foreground/70 hover:text-primary transition-colors"
@@ -63,7 +59,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
