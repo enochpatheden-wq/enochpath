@@ -1,7 +1,6 @@
 import Header from "@/components/landing/Header";
 import HeroSection from "@/components/landing/HeroSection";
-import AboutSection from "@/components/landing/AboutSection";
-import PodcastSection from "@/components/landing/PodcastSection";
+import CharacterSection from "@/components/landing/CharacterSection";
 import RPGSection from "@/components/landing/RPGSection";
 import ContactSection from "@/components/landing/ContactSection";
 import Footer from "@/components/landing/Footer";
@@ -12,9 +11,8 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <AboutSection />
-        <PodcastSection />
         <RPGSection />
+        <CharacterSection />
         <ContactSection />
       </main>
       <Footer />
