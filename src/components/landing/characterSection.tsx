@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import enochFull from "@/assets/enoch-full.jpeg";
-import conceptFace from "@/assets/concept-face.jpg";
-import conceptStaff from "@/assets/concept-staff.jpg";
+// ATENÇÃO AQUI: Mudei para .png para bater com seus arquivos
+import enochFull from "@/assets/enoch-full.jpeg"; 
+import conceptFace from "@/assets/concept-face.png"; 
+import conceptStaff from "@/assets/concept-staff.png";
 
 const CharacterSection = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
